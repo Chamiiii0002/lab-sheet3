@@ -80,6 +80,9 @@ form.addEventListener("submit", (e) => {
 for (const id in rules) {
   const input = document.getElementById(id);
 
+  // Task B4: link each field to its error message for screen readers
+  input.setAttribute("aria-describedby", `${id}-error`);
+
   input.addEventListener("blur", () => {          // user left the field
     input.dataset.touched = "yes";
     checkField(input);
