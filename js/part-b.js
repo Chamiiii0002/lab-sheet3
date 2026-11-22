@@ -75,3 +75,17 @@ form.addEventListener("submit", (e) => {
   statusMsg.textContent = "Registration complete!";
   form.reset();
 });
+
+// Task B3: live feedback (check on blur first, then while typing)
+for (const id in rules) {
+  const input = document.getElementById(id);
+
+  input.addEventListener("blur", () => {          // user left the field
+    input.dataset.touched = "yes";
+    checkField(input);
+  });
+
+  input.addEventListener("input", () => {         // user is typing
+    if (input.dataset.touched) checkField(input);
+  });
+}
