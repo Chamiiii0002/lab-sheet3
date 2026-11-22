@@ -11,6 +11,8 @@ const terms = document.getElementById("terms");
 const showBtn = document.getElementById("show-btn");
 const submitBtn = document.getElementById("submit-btn");
 const result = document.getElementById("result");
+const strengthEl = document.getElementById("pw-strength");   // Challenge: strength word
+const resetBtn = document.getElementById("reset-btn");       // Challenge: Start again
 const ruleItems = {
   length: document.getElementById("rule-length"),
   number: document.getElementById("rule-number"),
@@ -49,7 +51,11 @@ function checkPasswordRules(value) {
   for (const rule in results) {
     ruleItems[rule].classList.toggle("met", results[rule]);
   }
-  return Object.values(results).every(Boolean);
+  // Challenge 1: strength word (Weak 0-2, Fair 3, Strong 4)
+  const score = Object.values(results).filter(Boolean).length;
+  strengthEl.textContent = value === "" ? "" :
+    `Strength: ${score === 4 ? "Strong" : score === 3 ? "Fair" : "Weak"}`;
+  return score === 4;
 }
 
 // TODO 4: confirm password
@@ -81,6 +87,17 @@ showBtn.addEventListener("click", () => {
   showBtn.textContent = hidden ? "Hide" : "Show";
 });
 
+// Challenge 2: Start again clears the form, every error and every ticked rule
+resetBtn.addEventListener("click", () => {
+  form.reset();
+  [username, email, confirmBox].forEach((input) => showError(input, ""));
+  password.type = "password";
+  showBtn.textContent = "Show";
+  result.textContent = "";
+  form.hidden = false;
+  updateForm();                       // un-ticks the rules and disables the button
+});
+
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   updateForm();
@@ -88,4 +105,6 @@ form.addEventListener("submit", (e) => {
   result.textContent = `Welcome, ${username.value.trim()}! Your account is ready.`;
   form.hidden = true;
   form.reset();
+  updateForm();
+  strengthEl.textContent = "";
 });
