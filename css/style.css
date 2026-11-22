@@ -10,3 +10,4 @@ input, select, button { padding: 8px; font-size: 1rem; }
 .invalid { border: 2px solid #a3173a; }
 #summary { background: #f6f4ef; padding: 1rem; border-radius: 8px; }
 #summary:empty { display: none; }
+.valid { border: 2px solid #2e7d32; }

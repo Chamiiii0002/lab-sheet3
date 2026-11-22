@@ -43,6 +43,8 @@ function showError(input, message) {
   errorEl.textContent = message;                  // "" clears it
   input.classList.toggle("invalid", message !== "");
   input.setAttribute("aria-invalid", message !== "");
+  // Challenge B3.2: green border for a touched field with no error
+  input.classList.toggle("valid", message === "" && Boolean(input.dataset.touched));
 }
 
 const rules = {
@@ -74,6 +76,11 @@ form.addEventListener("submit", (e) => {
   }
   statusMsg.textContent = "Registration complete!";
   form.reset();
+  for (const id in rules) {                       // clear leftover green borders
+    const input = document.getElementById(id);
+    delete input.dataset.touched;
+    input.classList.remove("valid");
+  }
 });
 
 // Task B3: live feedback (check on blur first, then while typing)
